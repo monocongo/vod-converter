@@ -6,19 +6,19 @@ http://host.robots.ox.ac.uk/pascal/VOC/voc2012/htmldoc/index.html
 
 import os
 import shutil
-
-from converter import Ingestor, Egestor
 import xml.etree.ElementTree as ET
+
+from vod_converter.converter import Ingestor, Egestor
 
 
 class VOCIngestor(Ingestor):
     def validate(self, root):
         path = f"{root}/VOC2012"
+        if not os.path.isfile(f"{path}/ImageSets/Main/trainval.txt"):
+            return False, f"Expected main image set ImageSets/Main/trainval.txt to exist within {path}"
         for subdir in ["ImageSets", "JPEGImages", "Annotations"]:
             if not os.path.isdir(f"{path}/{subdir}"):
                 return False, f"Expected subdirectory {subdir} within {path}"
-            if not os.path.isfile(f"{path}/ImageSets/Main/trainval.txt"):
-                return False, f"Expected main image set ImageSets/Main/trainval.txt to exist within {path}"
         return True, None
 
     def ingest(self, path):
