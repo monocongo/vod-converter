@@ -22,6 +22,8 @@ setup(
     packages=["vod_converter"],
     include_package_data=True,
     install_requires=[
+        "jsonschema",
+        "pillow",
     ],
     tests_require=["pytest"],
     test_suite="tests",
