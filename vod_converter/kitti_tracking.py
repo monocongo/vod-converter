@@ -54,7 +54,7 @@ import os
 import re
 from PIL import Image
 
-from converter import Ingestor
+from vod_converter.converter import Ingestor
 
 LABEL_F_PATTERN = re.compile('[0-9]+\.txt')
 
