@@ -35,7 +35,7 @@ import os
 from PIL import Image
 import shutil
 
-from converter import Ingestor, Egestor
+from vod_converter.converter import Ingestor, Egestor
 
 
 class KITTIIngestor(Ingestor):

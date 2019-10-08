@@ -7,14 +7,13 @@ To add support for additional data formats, define a module with an `converter.I
 
 import argparse
 import logging
-
-import converter
-import kitti
-import kitti_tracking
-import udacity
-import voc
-
 import sys
+
+import vod_converter.converter as converter
+import vod_converter.kitti as kitti
+import vod_converter.kitti_tracking as kitti_tracking
+import vod_converter.udacity as udacity
+import vod_converter.voc as voc
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

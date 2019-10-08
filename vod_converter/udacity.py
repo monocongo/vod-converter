@@ -12,7 +12,7 @@ from PIL import Image
 from collections import defaultdict
 
 
-from converter import Ingestor
+from vod_converter.converter import Ingestor
 
 
 class UdacityCrowdAIIngestor(Ingestor):
