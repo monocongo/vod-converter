@@ -71,23 +71,19 @@ class VOCIngestor(Ingestor):
     def _get_detection(self, node, width: int, height: int):
         bndbox = node.find('bndbox')
 
-        # some bounding boxes may start with 0 or end with width or height,
-        # so we'll need to handle these (literal) edge cases
+        # some bounding boxes may start with 0 or end at the full width
+        # or height, so we'll need to handle these (literal) edge cases
         xmin = int(bndbox.find('xmin').text)
         ymin = int(bndbox.find('ymin').text)
         xmax = int(bndbox.find('xmax').text)
         ymax = int(bndbox.find('ymax').text)
-        if xmin > 0:
-            xmin -= 1
-        if ymin > 0:
-            ymin -= 1
         if xmax == width:
             xmax -= 1
         if ymax == height:
             ymax -= 1
 
         return {
-            'label': node.find('name').text,
+            'label': node.find('name').text.strip(),
             'top': float(ymin),
             'left': float(xmin) ,
             'right': float(xmax),
