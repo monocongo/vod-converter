@@ -65,17 +65,29 @@ class VOCIngestor(Ingestor):
                 'width': image_width,
                 'height': image_height
             },
-            'detections': [self._get_detection(node) for node in xml_root.findall('object')]
+            'detections': [self._get_detection(node, image_width, image_height) for node in xml_root.findall('object')]
         }
 
-    def _get_detection(self, node):
+    def _get_detection(self, node, width: int, height: int):
         bndbox = node.find('bndbox')
+
+        # some bounding boxes may start with 0 or end at the full width
+        # or height, so we'll need to handle these (literal) edge cases
+        xmin = int(bndbox.find('xmin').text)
+        ymin = int(bndbox.find('ymin').text)
+        xmax = int(bndbox.find('xmax').text)
+        ymax = int(bndbox.find('ymax').text)
+        if xmax == width:
+            xmax -= 1
+        if ymax == height:
+            ymax -= 1
+
         return {
-            'label': node.find('name').text,
-            'top': float(bndbox.find('ymin').text) - 1,
-            'left': float(bndbox.find('xmin').text) - 1,
-            'right': float(bndbox.find('xmax').text) - 1,
-            'bottom': float(bndbox.find('ymax').text) - 1,
+            'label': node.find('name').text.strip(),
+            'top': float(ymin),
+            'left': float(xmin) ,
+            'right': float(xmax),
+            'bottom': float(ymax),
         }
 
 
